@@ -3,7 +3,6 @@ To start the installation of Kafka on Minikube, I chose to use the Strimzi CRD t
 kubectl create namespace kafka
 kubectl config set-context --current --namespace=kafka
 kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
-kubectl apply -f kafka-cluster.yaml -n kafka
 ```
 
 Apply my custom YAML file to configure the cluster:

@@ -92,12 +92,6 @@
            document.getElementById("restaurantDelivery").innerText = `Delivery: ${delivery ? 'Available' : 'Unavailable'}`;
        });
 
-       // // Populate the restaurant details
-       // document.getElementById("restaurantName").innerText = restaurantData.name;
-       // document.getElementById("restaurantStyle").innerText = `Style: ${restaurantData.style}`;
-       // document.getElementById("restaurantVegetarian").innerText = `Vegetarian: ${restaurantData.vegetarian ? 'Yes' : 'No'}`;
-       // document.getElementById("restaurantDelivery").innerText = `Delivery: ${restaurantData.delivery ? 'Available' : 'Unavailable'}`;
-
         // Handle form submission
         document.getElementById("orderForm").addEventListener("submit", async (event) => {
             event.preventDefault(); // Prevent the default form submission
@@ -114,7 +108,7 @@
 
             // Mock API request (Replace with your backend API endpoint)
             const orderDetails = {
-                restaurant: restaurantData.name,
+                restaurant: document.getElementById("restaurantName").innerText,
                 email,
                 creditCard
             };

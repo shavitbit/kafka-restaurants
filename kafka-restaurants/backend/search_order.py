@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 import logging
-from datetime import datetime
 import os
 from flask_cors import CORS
 import json
@@ -11,7 +10,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 app.json.sort_keys = False
 
-# Search for restaurants that is open now with optional parameters eg /search?restaurantStyle=italian?vegetarian=true
+# Search for restaurants
 @app.route('/search', methods=['GET'])
 def search():
     # Load the JSON file
@@ -40,54 +39,21 @@ def search():
 
     return jsonify(filtered_restaurants), 200
    
-    try:
-        results = [
-         {
-            "name": "Pizza Palace",
-            "style": "Italian",
-            "vegetarian": True,
-            "delivery": True
-         },
-         {
-            "name": "shawarma",
-            "style": "Italian",
-            "vegetarian": True,
-            "delivery": True
-         }
-        ]
-        return jsonify(results), 200
-    except Exception as e:
-      return jsonify({"message": f"Failed to retrieve records: {str(e)}"}), 500
+@app.route('/orders', methods=['POST'])
+def place_order():
+    order_data = request.json
+    print("Received Order:", order_data)
+    return jsonify({"message": "Order successfully placed"}), 200 
 
-#Search by restaurantName /searchByRest?restaurantName=pizza
-#@app.route('/searchByRest', methods=['GET'])
-#def searchsimple():
-# restaurant_name = request.args.get('restaurantName', type=str)
-# query = "SELECT * FROM restaurantTable WHERE restaurantName = ?"
-# params = [restaurant_name]
-# try:
-#        conn = get_db_connection()
-#        cursor = conn.cursor()
-#        cursor.execute(query, params)
-#        records = cursor.fetchall()
-#        results = [
-#            {
-#                "restaurantName": row.restaurantName,
-#                "restaurantStyle": row.restaurantStyle,
-#                "vegetarian": row.vegetarian,
-#                "deliveries": row.deliveries,
-#                "timeOpen": str(row.timeOpen)[:-3],
-#                "timeClose": str(row.timeClose)[:-3]
-#
-#            }for row in records]
-#        
-#        conn.close()
-#        return jsonify(results), 200
-# except Exception as e:
-#      return jsonify({"message": f"Failed to retrieve records: {str(e)}"}), 500 
-#
-#app_user = os.environ["APP_USER"]
-#app_pass = os.environ["APP_PASS"]
+    # Mock processing
+    if order_data.get('creditCard') and len(order_data['creditCard']) == 16:
+        return jsonify({"message": "Order successfully placed"}), 200
+    else:
+        return jsonify({"message": "Invalid credit card number"}), 400
+
+
+
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
