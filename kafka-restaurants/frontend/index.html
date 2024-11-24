@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Restaurants</title>
+    
+    <link rel="stylesheet" href="styles.css"> <!-- Add a CSS file for styles -->
+
+</head>
+<body>
+    <header>
+        <h1>Welcome to Kafka Restaurants</h1>
+    </header>
+    <main>
+       
+        <section>
+            <h2>Search for Restaurants</h2>
+            
+            <form id="searchForm">
+                <label for="restaurantName">Restaurant Name:</label>
+                <input type="text" id="restaurantName" name="restaurant_name" placeholder="Enter name">
+
+                <label for="restaurantStyle">Style:</label>
+                <select id="restaurantStyle" name="restaurant_style">
+                    <option value="">--Any Style--</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Israeli">Israeli</option>
+                </select>
+
+                <label for="vegetarian">Vegetarian Options:</label>
+                <input type="checkbox" id="vegetarian" name="vegetarian">
+
+                <button type="button" id="searchButton">Search</button>
+                
+            </form>
+        </section>
+
+        <section id="results">
+            <h2>Search Results</h2>
+            <div id="restaurantResults"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Kafka Restaurant</p>
+    </footer>
+
+    <script src="script.js"></script> <!-- Add JavaScript functionality -->
+</body>
+</html>

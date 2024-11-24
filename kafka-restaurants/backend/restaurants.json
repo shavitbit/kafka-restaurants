@@ -1,0 +1,92 @@
+[
+    {
+        "name": "Hummus Sababa",
+        "style": "Israeli",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "pizza Makpiza",
+        "style": "Italian",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "China town",
+        "style": "Chinese",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "China city",
+        "style": "Chinese",
+        "vegetarian": true,
+        "delivery": true
+    },
+    {
+        "name": "Shawarma",
+        "style": "Israeli",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "Sabich",
+        "style": "Israeli",
+        "vegetarian": true,
+        "delivery": true
+    },
+    {
+        "name": "Ima",
+        "style": "Israeli",
+        "vegetarian": true,
+        "delivery": false
+    },
+    {
+        "name": "Peking Duck House",
+        "style": "Chinese",
+        "vegetarian": true,
+        "delivery": true
+    },
+    {
+        "name": "Amore Mio",
+        "style": "Italian",
+        "vegetarian": true,
+        "delivery": true
+    },
+    {
+        "name": "Port Oren",
+        "style": "Israeli",
+        "vegetarian": false,
+        "delivery": true
+    },
+    {
+        "name": "The Chinese Wall",
+        "style": "Chinese",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "Long Sang",
+        "style": "Chinese",
+        "vegetarian": false,
+        "delivery": false
+    },
+    {
+        "name": "La Shuk",
+        "style": "Israeli",
+        "vegetarian": true,
+        "delivery": true
+    },
+    {
+        "name": "Cafe Italia",
+        "style": "Italian",
+        "vegetarian": false,
+        "delivery": true
+    },
+    {
+        "name": "Nam",
+        "style": "Israeli",
+        "vegetarian": false,
+        "delivery": false
+    }
+]
