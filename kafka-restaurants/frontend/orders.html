@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Your Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .restaurant-info {
+            background: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="restaurant-info">
+            <h2 id="restaurantName">Restaurant Name</h2>
+            <p id="restaurantStyle">Style: Italian</p>
+            <p id="restaurantVegetarian">Vegetarian: Yes</p>
+            <p id="restaurantDelivery">Delivery: Available</p>
+        </div>
+        <form id="orderForm">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            
+            <label for="creditCard">Credit Card Number</label>
+            <input type="text" id="creditCard" name="creditCard" placeholder="Enter your credit card number" required>
+            
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+           const urlParams = new URLSearchParams(window.location.search);
+           const name = urlParams.get('name');
+           const style = urlParams.get('style');
+           const vegetarian = urlParams.get('vegetarian') === 'true';
+           const delivery = urlParams.get('delivery') === 'true';
+       
+           // Populate restaurant details
+           document.getElementById("restaurantName").innerText = name;
+           document.getElementById("restaurantStyle").innerText = `Style: ${style}`;
+           document.getElementById("restaurantVegetarian").innerText = `Vegetarian: ${vegetarian ? 'Yes' : 'No'}`;
+           document.getElementById("restaurantDelivery").innerText = `Delivery: ${delivery ? 'Available' : 'Unavailable'}`;
+       });
+
+       // // Populate the restaurant details
+       // document.getElementById("restaurantName").innerText = restaurantData.name;
+       // document.getElementById("restaurantStyle").innerText = `Style: ${restaurantData.style}`;
+       // document.getElementById("restaurantVegetarian").innerText = `Vegetarian: ${restaurantData.vegetarian ? 'Yes' : 'No'}`;
+       // document.getElementById("restaurantDelivery").innerText = `Delivery: ${restaurantData.delivery ? 'Available' : 'Unavailable'}`;
+
+        // Handle form submission
+        document.getElementById("orderForm").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get form data
+            const email = document.getElementById("email").value;
+            const creditCard = document.getElementById("creditCard").value;
+
+            // Validate the data (Basic validation for example purposes)
+            if (!email || !creditCard) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Mock API request (Replace with your backend API endpoint)
+            const orderDetails = {
+                restaurant: restaurantData.name,
+                email,
+                creditCard
+            };
+
+            try {
+                const response = await fetch('http://127.0.0.1:5000/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(orderDetails)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert("Order placed successfully!");
+                } else {
+                    alert(`Failed to place order: ${result.message}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert("An error occurred while placing your order.");
+            }
+        });
+    </script>
+</body>
+</html>

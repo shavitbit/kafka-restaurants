@@ -14,16 +14,32 @@ app.json.sort_keys = False
 # Search for restaurants that is open now with optional parameters eg /search?restaurantStyle=italian?vegetarian=true
 @app.route('/search', methods=['GET'])
 def search():
-    # get the json file 
+    # Load the JSON file
     restaurants_path = 'restaurants.json'
     with open(restaurants_path, 'r') as file:
         data = json.load(file)
-    print (data)
-    restaurant_name = request.args.get('restaurantName')
-    restaurant_style = request.args.get('restaurantStyle')
-    vegetarian = request.args.get('vegetarian')
-    deliveries = request.args.get('deliveries')
 
+    # Retrieve query parameters
+    name = request.args.get('restaurant_name', '').lower()
+    style = request.args.get('restaurant_style', '').lower()
+    vegetarian = request.args.get('vegetarian', '').lower() == 'true'  # Convert to boolean
+
+    # Filter based on given criteria
+    filtered_restaurants = []
+    for restaurant in data:
+        # Apply filters
+        if name and name not in restaurant["name"].lower():
+            continue
+        if style and style != restaurant["style"].lower():
+            continue
+        if vegetarian and not restaurant["vegetarian"]:
+            continue
+
+        # If all filters pass, add the restaurant to the result
+        filtered_restaurants.append(restaurant)
+
+    return jsonify(filtered_restaurants), 200
+   
     try:
         results = [
          {

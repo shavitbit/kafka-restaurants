@@ -8,7 +8,7 @@ document.getElementById('searchButton').addEventListener('click', async () => {
     const queryParams = new URLSearchParams();
     if (restaurantName) queryParams.append('restaurant_name', restaurantName);
     if (restaurantStyle) queryParams.append('restaurant_style', restaurantStyle);
-    if (vegetarian) queryParams.append('vegetarian', true);
+    queryParams.append('vegetarian', vegetarian);
 
     // Fetch search results from API
     try {
@@ -24,7 +24,11 @@ document.getElementById('searchButton').addEventListener('click', async () => {
                 const div = document.createElement('div');
                 div.className = 'restaurant-card';
                 div.innerHTML = `
-                    <h3>${restaurant.name}</h3>
+                    <h3>
+                        <a href="orders.html?name=${encodeURIComponent(restaurant.name)}&style=${encodeURIComponent(restaurant.style)}&vegetarian=${restaurant.vegetarian}&delivery=${restaurant.delivery}">
+                            ${restaurant.name}
+                        </a>
+                    </h3>
                     <p>Style: ${restaurant.style}</p>
                     <p>Vegetarian: ${restaurant.vegetarian ? 'Yes' : 'No'}</p>
                     <p>Delivery: ${restaurant.delivery ? 'Available' : 'Unavailable'}</p>
