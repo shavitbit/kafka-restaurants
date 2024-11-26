@@ -3,12 +3,18 @@ import logging
 import os
 from flask_cors import CORS
 import json
+from kafka import KafkaProducer
 
-
-logger = logging.getLogger(__name__)
 app = Flask(__name__)
+logger = logging.getLogger(__name__)
+
 CORS(app)  # Enable CORS for all routes
 app.json.sort_keys = False
+
+ORDER_KAFKA_TOPIC = "order"
+bootstrap_svr = "localhost:9092"
+
+producer = KafkaProducer(bootstrap_servers=bootstrap_svr )
 
 # Search for restaurants
 @app.route('/search', methods=['GET'])
@@ -43,15 +49,24 @@ def search():
 def place_order():
     order_data = request.json
     print("Received Order:", order_data)
-    return jsonify({"message": "Order successfully placed"}), 200 
+     # Send kafka producer
+    data = {
+        "email": order_data["email"],
+        "credit_card": order_data["creditCard"],
+        "restaurant": order_data["restaurant"]
+    }
 
-    # Mock processing
-    if order_data.get('creditCard') and len(order_data['creditCard']) == 16:
-        return jsonify({"message": "Order successfully placed"}), 200
-    else:
-        return jsonify({"message": "Invalid credit card number"}), 400
+    producer.send(ORDER_KAFKA_TOPIC, json.dumps(data).encode("utf-8"))
+    print(f"Done Sending..{data}")
+
+    return jsonify({"message": "Order successfully placed, Wait for confirmation in your mail"}), 200
 
 
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "healthy"}), 200
 
 
 
