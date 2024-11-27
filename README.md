@@ -13,6 +13,15 @@ The credit card system and SMTP server, which are outside the diagram, are mocke
 ![Kafka restaurants system diagram](/media/system%20diagram.png) 
 
 ## FrontEnd
-![Search for restaurant](/media/frontend1.png)
+![Search for restaurant|200](/media/frontend.png)
 
-![Order from restaurant](/media/frontend2.png)
+[
+    <img
+        src="/media/frontend.png" 
+        width=70%
+        title="My Image"
+        alt="My Image"
+    />
+]
+
+
