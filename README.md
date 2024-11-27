@@ -11,3 +11,8 @@ so I used a ConfigMap.
 The credit card system and SMTP server, which are outside the diagram, are mocked.
 
 ![Kafka restaurants system diagram](/media/system%20diagram.png) 
+
+## FrontEnd
+![Search for restaurant](/media/frontend1.png)
+
+![Order from restaurant](/media/frontend2.png)
