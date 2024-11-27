@@ -1,0 +1,16 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY /kafka-restaurants/backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY /kafka-restaurants/backend/transactions.py /app
+
+RUN chmod +x transactions.py
+
+# Set the entrypoint to the CLI script
+ENTRYPOINT ["python", "transactions.py"]
+
+# From the root dir
+# docker build -t transactions:0.0.1 -f .\docker\dockerfile-transactions .  

@@ -1,0 +1,8 @@
+FROM nginx:latest
+COPY /kafka-restaurants/frontend/ /usr/share/nginx/html
+EXPOSE 8088
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
+
+# From the root dir
+# docker build -t frontend:0.0.1 -f .\docker\dockerfile-frontend .  
