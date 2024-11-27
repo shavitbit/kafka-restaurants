@@ -3,20 +3,26 @@ import time
 from kafka import KafkaProducer, KafkaConsumer
 import json
 import logging
-
+import os
+from dotenv import load_dotenv
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+load_dotenv()
+bootstrap_svr = os.getenv('BOOTSTRAP_SVR') 
 
 # Initialize Kafka consumer
 consumer = KafkaConsumer(
     'order',
-    bootstrap_servers='localhost:9092',
+    bootstrap_servers=bootstrap_svr,
+    group_id='transaction-service',  # Consumer group ID
+    auto_offset_reset='earliest',   # Start from the earliest offset
+    enable_auto_commit=False,        # Manually commit offsets
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
 # Initialize Kafka Producer
 producer = KafkaProducer(
-    bootstrap_servers="localhost:9092"
+    bootstrap_servers=bootstrap_svr
 )
 
 logger.info("Kafka Consumer initialized for topic 'order'.")
@@ -37,8 +43,10 @@ def confirm_transaction():
                 logger.info("Valid credit card detected.")
                 logger.info("Order processed successfully:" + json.dumps(data))
                 varified_data.append(data)
+                consumer.commit()
             else:
                 logger.warning("Invalid credit card number: " + json.dumps(data))
+                consumer.commit()
         except Exception as e:
             logger.error(f"Error processing message: {e}", exc_info=True)
         return varified_data

@@ -3,15 +3,23 @@ import time
 from kafka import KafkaConsumer
 import json
 import logging
+import os
+from dotenv import load_dotenv
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+load_dotenv()
+bootstrap_svr = os.getenv('BOOTSTRAP_SVR')
+
 # Initialize Kafka consumer
 consumer = KafkaConsumer(
     'order_confirm',
-    bootstrap_servers='localhost:9092',
+    bootstrap_servers= bootstrap_svr,
+    group_id='confirmation-service',
+    auto_offset_reset='earliest',
+    enable_auto_commit=False,
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
 
@@ -26,10 +34,13 @@ def send_mail_confirmation():
                     if isinstance(item, dict) and 'email' in item: 
                         to = item['email']
                         logger.info(f"Sending mail confirmation to: {to}")
+                        consumer.commit()
                     else:
                         logger.warning("Item in list is not a dictionary or missing 'email' key.")
+                        consumer.commit()
             else:
                 logger.error("Message value is not a list.")
+                consumer.commit()
         except Exception as e:
             logger.error(f"Error processing message: {e}", exc_info=True)
     

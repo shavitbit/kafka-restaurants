@@ -4,6 +4,7 @@ import os
 from flask_cors import CORS
 import json
 from kafka import KafkaProducer
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
@@ -12,7 +13,8 @@ CORS(app)  # Enable CORS for all routes
 app.json.sort_keys = False
 
 ORDER_KAFKA_TOPIC = "order"
-bootstrap_svr = "localhost:9092"
+load_dotenv()
+bootstrap_svr =os.getenv('BOOTSTRAP_SVR')
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_svr )
 
