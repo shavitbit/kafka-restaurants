@@ -14,12 +14,8 @@ The credit card system and SMTP server, which are outside the diagram, are mocke
 
 ## FrontEnd
 
-    <img
-        src="/media/frontend.png" 
-        width=70%
-        title="Search for restaurant"
-        alt="Search for restaurant"
-    />
+![Search for restaurant|200](/media/frontend.png)
+
 
 
 
