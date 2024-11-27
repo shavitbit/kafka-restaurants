@@ -1,5 +1,4 @@
-   #transaction system
-#from flask import Flask, request, jsonify
+# Transaction system
 import time
 from kafka import KafkaProducer, KafkaConsumer
 import json
@@ -15,7 +14,7 @@ consumer = KafkaConsumer(
     bootstrap_servers='localhost:9092',
     value_deserializer=lambda x: json.loads(x.decode('utf-8'))
 )
-
+# Initialize Kafka Producer
 producer = KafkaProducer(
     bootstrap_servers="localhost:9092"
 )
