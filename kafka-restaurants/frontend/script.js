@@ -12,7 +12,8 @@ document.getElementById('searchButton').addEventListener('click', async () => {
 
     // Fetch search results from API
     try {
-        const response = await fetch(`http://127.0.0.1:5000/search?${queryParams.toString()}`);
+        const url = 'http://127.0.0.1:5000'
+        const response = await fetch(`${url}/search?${queryParams.toString()}`);
         const data = await response.json();
 
         // Render results
