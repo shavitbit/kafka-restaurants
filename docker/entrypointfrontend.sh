@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Check if API_URL is set, else use a default value
+# Check if URL is set, else use a default value
 API_URL=${API_URL:-http://127.0.0.1:5000}
 
 # Replace the URL in your JavaScript file

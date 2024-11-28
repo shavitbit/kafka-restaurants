@@ -15,7 +15,7 @@ app.json.sort_keys = False
 ORDER_KAFKA_TOPIC = "order"
 load_dotenv()
 bootstrap_svr =os.getenv('BOOTSTRAP_SVR')
-
+logger.info("bootstrap server - "+ bootstrap_svr)
 producer = KafkaProducer(bootstrap_servers=bootstrap_svr )
 
 # Search for restaurants

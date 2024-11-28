@@ -1,15 +1,14 @@
 FROM nginx:latest
 
-COPY docker/entrypointfrontend.sh .
+COPY /docker/entrypointfrontend.sh .
 COPY /kafka-restaurants/frontend/ /usr/share/nginx/html
 
 EXPOSE 8088
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypointfrontend.sh
 
 # Start Nginx server
-CMD ["/entrypoint.sh"]
+CMD ["/entrypointfrontend.sh"]
 
 # From the root dir
 # docker build -t frontend:0.0.1 -f .\docker\dockerfile-frontend .  

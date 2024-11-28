@@ -82,3 +82,22 @@ consumer = KafkaConsumer(
 consumer.commit()
 
 ```
+## Docker
+```sh
+# Frontend
+docker build -t frontend:0.0.1 -f .\docker\dockerfile-frontend .
+docker run --name frontend-container --network app-network -p 8088:80 -d frontend:0.0.1
+# you can add -e API_URL=https://production.example.com:5000 for the flask docker
+
+# Search and order api (flask)
+docker build -t searchorder:0.0.1 -f .\docker\dockerfile-flask .  
+docker run --name api-container --network app-network -p 5000:5000 -d searchorder:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
+
+docker build -t transactions:0.0.1 -f .\docker\dockerfile-transactions .
+docker run --name transactions-container --network app-network -d transactions:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
+
+docker build -t pymail:0.0.1 -f .\docker\dockerfile-pymail .
+docker run --name pymail-container --network app-network -d pymail:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
+```
+
+## Kubernetes
