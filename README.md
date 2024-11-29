@@ -151,3 +151,27 @@ docker build -t pymail:0.0.1 -f .\docker\dockerfile-pymail .
 ```
 
 ## Kubernetes
+
+### Strimzi CRD
+To set up Kafka on Minikube, I utilized Strimzi CRDs to simplify the installation process and create a minimal environment. Detailed installation steps are documented in the readme.md file located in the kafka-cluster folder.
+* When testing applications hosted on local machine (outside of Kubernetes), I to exposed the Kafka cluster using a LoadBalancer. To achieve this, I modified the values.yaml configuration for Strimzi, setting the listener type to LoadBalancer
+* For both Kafka and the consuming/producing applications are running inside the Kubernetes cluster, additional listener configuration is required. Use the advertisedHost field in the Kafka listener configuration to ensure proper communication. The advertisedHost should point to the Kafka service's bootstrap address.
+
+```yaml
+spec:
+  kafka:
+    version: 3.7.0
+    replicas: 1 
+    listeners:
+      - name: plain
+        port: 9092
+        configuration:
+         brokers: 
+         - broker: 0
+           advertisedHost: my-cluster-kafka-plain-bootstrap.kafka.svc.cluster.local
+           advertisedPort: 9092
+        type: ClusterIP # or loadbalancer
+```
+### Helm Chart
+
+### ArgoCD
