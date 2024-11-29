@@ -32,7 +32,7 @@ try {
 ```
 ### Solution: Dynamic URL Configuration
 
-To resolve the URL issue,I created a Bash script as the container's entrypoint in the Dockerfile and configured the environment variable via the Helm chart.
+To resolve the URL issue, I created a Bash script as the container's entrypoint in the Dockerfile and configured the environment variable via the Helm chart.
 
 <b>Entrypoint Script in Dockerfile:</b>
 ```sh
@@ -146,6 +146,7 @@ docker build -t frontend:0.0.1 -f .\docker\dockerfile-frontend .
 docker build -t searchorder:0.0.1 -f .\docker\dockerfile-flask .  
 docker build -t transactions:0.0.1 -f .\docker\dockerfile-transactions .
 docker build -t pymail:0.0.1 -f .\docker\dockerfile-pymail .
+# tag all images with my docker user philipsinfo/<image-name:version> and push them to my public repository so i can pull them from the helm chart.
 ```
 
 ## Kubernetes
