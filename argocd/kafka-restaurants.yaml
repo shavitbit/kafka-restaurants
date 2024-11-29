@@ -13,7 +13,7 @@ spec:
     targetRevision: master
   destination:
     namespace: default
-    name: in-cluster
+    name: https://kubernetes.default.svc
   syncPolicy:
     automated: {}
     syncOptions:

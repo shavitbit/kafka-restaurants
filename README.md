@@ -1,4 +1,4 @@
-# Kafka restaurants system (still in development)
+# Kafka restaurants system
 
 Kafka Restaurants is a buying and delivery system designed to demonstrate how to build and work with Kafka and other microservices on Kubernetes.
 
