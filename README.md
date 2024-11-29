@@ -184,4 +184,9 @@ cd helm
 helm install kafka-restaurants .
 ```
 ## ArgoCD
+
 ![Kafka restaurants system diagram](/media/argocd.png) 
+
+### Installation Guide - YouTube Video
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/pw0sajWex_8/0.jpg)](https://youtu.be/pw0sajWex_8)
