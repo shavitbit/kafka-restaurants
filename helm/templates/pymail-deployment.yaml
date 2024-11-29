@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pymail-deploy
+  labels:
+    app: pymail-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pymail-app
+  template:
+    metadata:
+      labels:
+        app: pymail-app
+    spec:
+      containers:
+      - name: pymail-app
+        image: {{ .Values.images.pymail}} 
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+        env:
+        - name: BOOTSTRAP_SVR
+          value: {{ .Values.backend.env.BOOTSTRAP_SVR }}

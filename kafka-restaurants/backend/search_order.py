@@ -22,7 +22,8 @@ producer = KafkaProducer(bootstrap_servers=bootstrap_svr )
 @app.route('/search', methods=['GET'])
 def search():
     # Load the JSON file
-    restaurants_path = 'restaurants.json'
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    restaurants_path = os.path.join(current_dir, 'config', 'restaurants.json')
     with open(restaurants_path, 'r') as file:
         data = json.load(file)
 

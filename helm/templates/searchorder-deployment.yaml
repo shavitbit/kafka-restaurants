@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchorder-deploy
+  labels:
+    app: searchorder-deploy
+spec:
+  replicas: {{ .Values.app.searchorderreplicaCount}}
+  selector:
+    matchLabels:
+      app: searchorder-web
+  template:
+    metadata:
+      labels:
+        app: searchorder-web
+    spec:
+      containers:
+      - name: searchorder-web
+        image: {{ .Values.images.searchorder}} 
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config/restaurants.json
+          subPath: restaurants.json
+        ports:
+        - containerPort: 5000
+
+        readinessProb:
+          httpGet:
+            path: {{.Values.health.readinessProbe.httpGet.path }}
+            port: {{.Values.health.readinessProbe.httpGet.port }}
+          initialDelaySeconds: {{.Values.health.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{.Values.health.readinessProbe.periodSeconds }}
+        livenessProbe:
+          httpGet:
+            path: {{.Values.health.livenessProbe.httpGet.path }}
+            port: {{.Values.health.livenessProbe.httpGet.port }}
+          initialDelaySeconds: {{.Values.health.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{.Values.health.livenessProbe.periodSeconds }}
+        env:
+        - name: BOOTSTRAP_SVR
+          value: {{ .Values.backend.env.BOOTSTRAP_SVR }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: restaurantsdb

@@ -7,7 +7,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 #COPY . .
 COPY /kafka-restaurants/backend/search_order.py /app
-COPY /kafka-restaurants/backend/restaurants.json /app
+# You dont need the config file if you deploy it with the helm chart. it will be in the configMap
+# and will be mount as volume to app/config
+COPY /kafka-restaurants/backend/config/restaurants.json /app/config/
 
 EXPOSE 5000
 

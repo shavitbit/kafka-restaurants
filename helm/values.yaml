@@ -1,0 +1,29 @@
+# helm install kafka-restaurants . --set backend.env.BOOTSTRAP_SVR=<kafka bootstrap server:port>
+
+app:
+   frontendreplicaCount: 2
+   searchorderreplicaCount: 1
+images:
+  frontend: philipsinfo/frontend:0.0.2
+  searchorder: philipsinfo/searchorder:0.0.3
+  transactions: philipsinfo/transactions:0.0.1
+  pymail: philipsinfo/pymail:0.0.1
+
+backend:
+  env:
+    BOOTSTRAP_SVR: my-cluster-kafka-plain-bootstrap.kafka.svc.cluster.local:9092
+  apiUrl: "http://searchorder-web-svc:5000"
+
+health:
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 5000
+    initialDelaySeconds: 5
+    periodSeconds: 10

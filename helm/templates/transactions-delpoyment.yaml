@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactions-deploy
+  labels:
+    app: transactions-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transactions-app
+  template:
+    metadata:
+      labels:
+        app: transactions-app
+    spec:
+      containers:
+      - name: transactions-app
+        image: {{ .Values.images.transactions}} 
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+        env:
+        - name: BOOTSTRAP_SVR
+          value: {{ .Values.backend.env.BOOTSTRAP_SVR }}

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchorder-web-svc # dns name
+spec:
+  selector:
+    app: searchorder-web
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: ClusterIP
