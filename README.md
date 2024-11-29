@@ -54,7 +54,7 @@ backend:
   apiUrl: "http://searchorder-web-svc:5000"
 ```
 
-## Solution: Proxy Requests Through NGINX
+### Solution: Proxy Requests Through NGINX
 To ensure the user cannot directly access the backend API, I configured a proxy in the NGINX server, Updated the default.conf file to redirect frontend requests to the backend API and modified the apiUrl in values.yaml to use /api as the base URL.
 
 <b>NGINX Configuration (default.conf):</b>
