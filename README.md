@@ -184,3 +184,4 @@ cd helm
 helm install kafka-restaurants .
 ```
 ## ArgoCD
+![Kafka restaurants system diagram](/media/argocd.png) 

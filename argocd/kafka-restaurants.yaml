@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka-restaurants
+  namespace: argocd
+#  finalizers:
+#  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/shavitbit/kafka-restaurants.git
+    path: helm
+    targetRevision: master
+  destination:
+    namespace: default
+    name: in-cluster
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=false
