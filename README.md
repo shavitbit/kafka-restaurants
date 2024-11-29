@@ -172,7 +172,7 @@ spec:
            advertisedPort: 9092
         type: ClusterIP # or loadbalancer
 ```
-### Helm Chart
+## Helm Chart
 The helm chart configutation located in the helm folder and it contains:
 * ConfigMap-data as the restaurants database
 * Nginx-config that replace the default.conf file for the frontend microsecvice 
@@ -183,4 +183,4 @@ The helm chart configutation located in the helm folder and it contains:
 cd helm
 helm install kafka-restaurants .
 ```
-### ArgoCD
+## ArgoCD
