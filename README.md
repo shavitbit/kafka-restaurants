@@ -32,21 +32,21 @@ try {
 ```
 ### Solution: Dynamic URL Configuration
 
-To resolve the URL issue, create a Bash script as the container's entrypoint in the Dockerfile and configure the environment variable via the Helm chart.
+To resolve the URL issue,I created a Bash script as the container's entrypoint in the Dockerfile and configured the environment variable via the Helm chart.
 
-<b>Example Entrypoint Script in Dockerfile:</b>
+<b>Entrypoint Script in Dockerfile:</b>
 ```sh
 # Check if URL is set, else use a default value
 API_URL=${API_URL:-http://127.0.0.1:5000}
 
-# Replace the URL in your JavaScript file
+# Replace the URL in the JavaScript file
 sed -i "s|const url = 'http://127.0.0.1:5000'|const url = '${API_URL}'|" /usr/share/nginx/html/script.js
 sed -i "s|const url = 'http://127.0.0.1:5000'|const url = '${API_URL}'|" /usr/share/nginx/html/orders.html
 
 # Start Nginx
 nginx -g "daemon off;"
 ```
-<b>Example Helm Chart Configuration (values.yaml):</b>
+<b>Helm Chart Configuration (values.yaml):</b>
 ```yaml
 backend:
   env:
@@ -55,9 +55,9 @@ backend:
 ```
 
 ## Solution: Proxy Requests Through NGINX
-To ensure the user cannot directly access the backend API, configure a proxy in the NGINX server. Update the default.conf file to redirect frontend requests to the backend API. Modify the apiUrl in values.yaml to use /api as the base URL.
+To ensure the user cannot directly access the backend API, I configured a proxy in the NGINX server, Updated the default.conf file to redirect frontend requests to the backend API and modified the apiUrl in values.yaml to use /api as the base URL.
 
-<b>Example NGINX Configuration (default.conf):</b>
+<b>NGINX Configuration (default.conf):</b>
 ```nginx
         
         # Proxy API requests to the internal service
