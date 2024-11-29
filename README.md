@@ -77,9 +77,9 @@ backend:
 
 
 
-## Kafka code explanation
+## Kafka code concepts
 
-Producer <br/>
+<b>Producer</b> <br/>
 1. Load the Kafka package with KafkaProducer to connect to and work with Kafka as a producer.
 2. Load the dotenv and os packages to use environment variables for the bootstrap server.
 3. Initialize the producer and configure it with the bootstrap server.
@@ -107,7 +107,7 @@ data = [
 producer.send("order_confirm", json.dumps(data).encode("utf-8"))
 ```
 
-Consumer <br/>
+<b>Consumer</b> <br/>
 1. Load the Kafka package with KafkaConsume to connect to and work with Kafka as a producer.
 2. Load the dotenv and os packages to use environment variables for the bootstrap server.
 3. Initialize the consumer and configure it with the bootstrap server.
