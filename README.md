@@ -173,12 +173,12 @@ spec:
         type: ClusterIP # or loadbalancer
 ```
 ## Helm Chart
-The helm chart configutation located in the helm folder and it contains:
-* ConfigMap-data as the restaurants database
-* Nginx-config that replace the default.conf file for the frontend microsecvice 
-* Horizontal pod autoscaler for the backend api and for the frontend deployment
-* Servic for the frontend as a LoadBalancer and service for the backend api as a ClusterIP
-* Deployments for frontend, backend api, transactions app, and email app.
+The Helm chart configuration is located in the helm folder and includes the following:
+* ConfigMap Data: Serves as the restaurants database.
+* Nginx Configuration: Replaces the default.conf file for the frontend microservice.
+* Horizontal Pod Autoscaler: Configured for both the backend API and frontend deployments.
+* Frontend service configured as a LoadBalancer and Backend API service configured as a ClusterIP.
+* Deployments: Includes the frontend, backend API, transactions app, and email app.
 ```sh
 cd helm
 helm install kafka-restaurants .
