@@ -16,6 +16,64 @@ The credit card system and SMTP server, which are outside the diagram, are mocke
 
 ![Search for restaurant|200](/media/frontend.png)
 
+## Key Security Considerations When Deploying the Frontend Microservice on Kubernetes
+### Challenges
+1. <b> Backend API Accessibility </b> <br/>
+   As illustrated in the Kubernetes architecture, the backend APIs (search and orders) are not accessible outside the cluster. However, frontend JavaScript executes requests from the user's browser, which cannot directly connect to the backend.
+2. <b>Incorrect Backend URL</b> </br>
+      The hardcoded const url in the frontend JavaScript code is incorrect when deployed on Kubernetes. This issue causes the frontend to fail when trying to connect to the backend APIs.
+
+```javascript
+try {
+        const url = 'http://127.0.0.1:5000'
+        const response = await fetch(`${url}/search?${queryParams.toString()}`);
+        const data = await response.json();
+
+```
+### Solution: Dynamic URL Configuration
+
+To resolve the URL issue, create a Bash script as the container's entrypoint in the Dockerfile and configure the environment variable via the Helm chart.
+
+<b>Example Entrypoint Script in Dockerfile:</b>
+```sh
+# Check if URL is set, else use a default value
+API_URL=${API_URL:-http://127.0.0.1:5000}
+
+# Replace the URL in your JavaScript file
+sed -i "s|const url = 'http://127.0.0.1:5000'|const url = '${API_URL}'|" /usr/share/nginx/html/script.js
+sed -i "s|const url = 'http://127.0.0.1:5000'|const url = '${API_URL}'|" /usr/share/nginx/html/orders.html
+
+# Start Nginx
+nginx -g "daemon off;"
+```
+<b>Example Helm Chart Configuration (values.yaml):</b>
+```yaml
+backend:
+  env:
+    BOOTSTRAP_SVR: my-cluster-kafka-plain-bootstrap.kafka.svc.cluster.local:9092
+  apiUrl: "http://searchorder-web-svc:5000"
+```
+
+## Solution: Proxy Requests Through NGINX
+To ensure the user cannot directly access the backend API, configure a proxy in the NGINX server. Update the default.conf file to redirect frontend requests to the backend API. Modify the apiUrl in values.yaml to use /api as the base URL.
+
+<b>Example NGINX Configuration (default.conf):</b>
+```nginx
+        
+        # Proxy API requests to the internal service
+        
+        location /api/ {
+            rewrite ^/api/(.*)$ /$1 break;  # Remove the '/api' prefix
+            proxy_pass http://searchorder-web-svc:5000/;  # Internal service
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+        }
+```
+<b>Update values.yaml:</b>
+```yaml
+backend:
+  apiUrl: "/api"
+```
 
 
 
@@ -84,20 +142,10 @@ consumer.commit()
 ```
 ## Docker
 ```sh
-# Frontend
 docker build -t frontend:0.0.1 -f .\docker\dockerfile-frontend .
-docker run --name frontend-container --network app-network -p 8088:80 -d frontend:0.0.1
-# you can add -e API_URL=https://production.example.com:5000 for the flask docker
-
-# Search and order api (flask)
 docker build -t searchorder:0.0.1 -f .\docker\dockerfile-flask .  
-docker run --name api-container --network app-network -p 5000:5000 -d searchorder:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
-
 docker build -t transactions:0.0.1 -f .\docker\dockerfile-transactions .
-docker run --name transactions-container --network app-network -d transactions:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
-
 docker build -t pymail:0.0.1 -f .\docker\dockerfile-pymail .
-docker run --name pymail-container --network app-network -d pymail:0.0.1 -e BOOTSTRAP_SVR='<kafka_bootstrap>:<ip>'
 ```
 
 ## Kubernetes

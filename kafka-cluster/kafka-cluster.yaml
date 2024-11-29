@@ -9,6 +9,11 @@ spec:
     listeners:
       - name: plain
         port: 9092
+        configuration:
+         brokers: 
+         - broker: 0
+           advertisedHost: my-cluster-kafka-plain-bootstrap.kafka.svc.cluster.local
+           advertisedPort: 9092
         type: loadbalancer
         tls: false
       - name: tls
